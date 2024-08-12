@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "fb42b731-7fdb-4008-8d7b-9b1d1363ba17",
+		"name": "exchange_rate_api_assessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1264839",
+		"_collection_link": "https://martian-trinity-118725.postman.co/workspace/Hydrogen-APIs~1f8821f5-926f-4736-80a5-8532faff3605/collection/1264839-fb42b731-7fdb-4008-8d7b-9b1d1363ba17?action=share&source=collection_link&creator=1264839"
+	},
+	"item": [
+		{
+			"name": "exchangerate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Verify the HTTP status is 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"if (pm.response.code == 200) {",
+							"    const jsonResponse = pm.response.json();",
+							"",
+							"    //Count the total number of currencies returned within the response",
+							"    const total_currencies = Object.keys(jsonResponse.conversion_rates)",
+							"    console.log(`The total currencies are ${total_currencies.length}`)",
+							"",
+							"    //Verify the currency ‘GBP’ is shown within the response",
+							"    const currency_id = \"GBP\";",
+							"    pm.test(`Verify the currency ${currency_id} is shown within the response`, () => {",
+							"        for (let currency in total_currencies) {",
+							"            if (total_currencies[currency] == currency_id) {",
+							"                pm.expect(total_currencies[currency]).to.equal(currency_id)",
+							"                break",
+							"            }",
+							"        }",
+							"    })",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://v6.exchangerate-api.com/v6/1fc80820c72b0163bc9c7536/latest/USD",
+					"protocol": "https",
+					"host": [
+						"v6",
+						"exchangerate-api",
+						"com"
+					],
+					"path": [
+						"v6",
+						"1fc80820c72b0163bc9c7536",
+						"latest",
+						"USD"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
